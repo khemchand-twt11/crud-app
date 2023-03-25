@@ -18,6 +18,7 @@ userRoute.post("/register", async (req, res) => {
       res.send({ msg: "user already exist" });
     } else {
       bcrypt.hash(pass, 8, async (err, hash) => {
+        if (err) res.status(400).send({ error: err.message });
         const newUser = new userModel({ name, email, pass: hash });
         await newUser.save();
         res.send({ msg: "user registere successfully!" });
