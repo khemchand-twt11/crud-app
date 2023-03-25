@@ -11,19 +11,20 @@ userRoute.post("/register", async (req, res) => {
   if (!name || !email || !pass)
     return res.status(400).send({ msg: "please type all the details!" });
   const user = await userModel.findOne({ email: email });
-  try {
-    if (user) {
-      res.send({ msg: "user already exist" });
-    } else {
+
+  if (user) {
+    res.send({ msg: "user already exist" });
+  } else {
+    try {
       bcrypt.hash(pass, 8, async (err, hash) => {
         if (err) res.status(400).send({ error: err.message });
         const newUser = new userModel({ name, email, pass: hash });
         await newUser.save();
-        res.send({ msg: "user registere successfully!" });
+        res.send({ msg: "user registered successfully!" });
       });
+    } catch (error) {
+      res.status(400).send({ msg: error.message });
     }
-  } catch (error) {
-    res.status(400).send({ msg: error.message });
   }
 });
 
