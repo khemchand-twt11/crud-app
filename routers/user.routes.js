@@ -10,10 +10,8 @@ userRoute.post("/register", async (req, res) => {
   const { name, email, pass } = req.body;
   if (!name || !email || !pass)
     return res.status(400).send({ msg: "please type all the details!" });
-
+  const user = await userModel.findOne({ email: email });
   try {
-    const user = await userModel.findOne({ email: email });
-
     if (user) {
       res.send({ msg: "user already exist" });
     } else {
@@ -25,7 +23,7 @@ userRoute.post("/register", async (req, res) => {
       });
     }
   } catch (error) {
-    res.send({ msg: error.message });
+    res.status(400).send({ msg: error.message });
   }
 });
 
