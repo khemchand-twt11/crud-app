@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose", { options: { connectTimeoutMS: 30000 } });
 
 const userSchema = mongoose.Schema(
   {
