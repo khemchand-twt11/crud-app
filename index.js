@@ -1,5 +1,6 @@
 const express = require("express");
 const { connection } = require("./config/db");
+require("dotenv").config();
 const app = express();
 app.get("/", (req, res) => {
   res.status(200).send({ msg: "SERVER PAGE" });
